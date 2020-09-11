@@ -11,42 +11,63 @@ class App extends React.Component {
 
   onDragEnd = result => {
     const {destination, source, draggableId} = result;
+    var newState;
 
     if (!destination) {
       return;
     }
 
     if (
-      destination.droppableId === source.droppableId
+      destination.droppableId === source.droppableId && destination.index === source.index
     ) { 
       return;
     }
 
-    const sourceColumn = this.state.columns[source.droppableId];
-    const destColumn = this.state.columns[destination.droppableId];
-    const newTaskIdsSource = Array.from(sourceColumn.taskIds);
-    const newTaskIdsDestination = Array.from(destColumn.taskIds);
-    newTaskIdsSource.splice(source.index, 1); // remove 1 item from this index
-    newTaskIdsDestination.splice(destination.index, 0, draggableId); // remove 0 items from this index, insert draggableId
+    if (destination.droppableId === source.droppableId && destination.index !== source.index) {
+      const column = this.state.columns[source.droppableId];
+      const newTaskIds = Array.from(column.taskIds);
+      newTaskIds.splice(source.index, 1); // remove 1 item from this index
+      newTaskIds.splice(destination.index, 0, draggableId); // remove 0 items from this index, insert draggableId
 
-    const newSourceColumn = {
-      ...sourceColumn,
-      taskIds: newTaskIdsSource
-    };
+      const newColumn = {
+        ...column,
+        taskIds: newTaskIds
+      };
 
-    const newDestColumn = {
-      ...destColumn,
-      taskIds: newTaskIdsDestination
+      newState = {
+        ...this.state,
+        columns: {
+          ...this.state.columns,
+          [newColumn.id]: newColumn,
+        }
+      }
+    } else {
+      const sourceColumn = this.state.columns[source.droppableId];
+      const destColumn = this.state.columns[destination.droppableId];
+      const newTaskIdsSource = Array.from(sourceColumn.taskIds);
+      const newTaskIdsDestination = Array.from(destColumn.taskIds);
+      newTaskIdsSource.splice(source.index, 1); // remove 1 item from this index
+      newTaskIdsDestination.splice(destination.index, 0, draggableId); // remove 0 items from this index, insert draggableId
+
+      const newSourceColumn = {
+        ...sourceColumn,
+        taskIds: newTaskIdsSource
+      };
+
+      const newDestColumn = {
+        ...destColumn,
+        taskIds: newTaskIdsDestination
+      }
+
+      newState = {
+        ...this.state,
+        columns: {
+          ...this.state.columns,
+          [newSourceColumn.id]: newSourceColumn,
+          [newDestColumn.id]: newDestColumn,
+        },
+      };
     }
-
-    const newState = {
-      ...this.state,
-      columns: {
-        ...this.state.columns,
-        [newSourceColumn.id]: newSourceColumn,
-        [newDestColumn.id]: newDestColumn,
-      },
-    };
 
     this.setState(newState);
 
