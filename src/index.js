@@ -23,6 +23,7 @@ class App extends React.Component {
       return;
     }
 
+    // figure out some elegant solution to this
     if (destination.droppableId === source.droppableId && destination.index !== source.index) {
       const column = this.state.columns[source.droppableId];
       const newTaskIds = Array.from(column.taskIds);
