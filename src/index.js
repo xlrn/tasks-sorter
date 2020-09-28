@@ -13,12 +13,18 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tasks: {},
+      iteration: 0,
+      value: {},
+      tasks: {        
+      'task-1': { id: 'task-1', content: 'do something' },
+      'task-2': { id: 'task-2', content: 'do nothing'},
+      'task-3': { id: 'task-3', content: 'just do it'},
+      },
       columns: {
         'column-1': {
             id: 'column-1',
             title: 'to do',
-            taskIds: [],
+            taskIds: ['task-1', 'task-2'],
         },
         'column-2' : {
             id: 'column-2',
@@ -38,7 +44,7 @@ class App extends React.Component {
     },
     columnOrder: ['column-1', 'column-2', 'column-3', 'column-4'],
     };
-}
+  }
 
   onDragEnd = result => {
     const {destination, source, draggableId} = result;
@@ -105,10 +111,49 @@ class App extends React.Component {
 
   }
 
+  handleChange(input) {
+    var newState = {
+      value: input,
+      ...this.state
+    }
+
+    this.setState(newState);
+  } 
+
+  addTask(task) {
+    var newTaskId = Date.now();
+    var newId = Date.now();
+    var newContent = task;
+    var column = this.state.columnns[0];
+    var taskIds = column.taskIds;
+
+
+    var newTask = {newTaskId: {id: newId, content: newContent}}
+
+    var newTaskIds = taskIds.push(newTaskId);
+
+    var newColumn = {...column,
+      taskIds: newTaskIds
+    }
+
+    var newState = {
+      ...this.state,
+      tasks: {...this.state.tasks, newTask},
+      columns: {...this.state.columns, newColumn},
+      
+    }
+
+
+
+    this.setState(newState);
+
+  }
+
+
   render() {
     return (
       <div>
-        <AddBar>aaaa</AddBar>
+        <AddBar onHandleSubmit={this.addTask} onHandleChange={this.handleChange}/>
         <DragDropContext onDragEnd={this.onDragEnd}>
           {this.state.columnOrder.map(columnId => {
           const column = this.state.columns[columnId];
