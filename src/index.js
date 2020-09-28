@@ -5,9 +5,40 @@ import '@atlaskit/css-reset';
 import { DragDropContext } from 'react-beautiful-dnd';
 import initialData from './initial-data';
 import Column from './column';
+import AddBar from './addbar';
 
 class App extends React.Component {
-  state = initialData;
+  //state = initialData;
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      tasks: {},
+      columns: {
+        'column-1': {
+            id: 'column-1',
+            title: 'to do',
+            taskIds: [],
+        },
+        'column-2' : {
+            id: 'column-2',
+            title: 'not do',
+            taskIds: [],
+        },
+        'column-3' : {
+            id: 'column-3',
+            title: 'not important',
+            taskIds: [],
+        },
+        'column-4' : {
+            id: 'column-4',
+            title: 'important',
+            taskIds: [],
+        }
+    },
+    columnOrder: ['column-1', 'column-2', 'column-3', 'column-4'],
+    };
+}
 
   onDragEnd = result => {
     const {destination, source, draggableId} = result;
@@ -76,14 +107,17 @@ class App extends React.Component {
 
   render() {
     return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
-        {this.state.columnOrder.map(columnId => {
-        const column = this.state.columns[columnId];
-        const tasks = column.taskIds.map(taskId => this.state.tasks[taskId]);
+      <div>
+        <AddBar>aaaa</AddBar>
+        <DragDropContext onDragEnd={this.onDragEnd}>
+          {this.state.columnOrder.map(columnId => {
+          const column = this.state.columns[columnId];
+          const tasks = column.taskIds.map(taskId => this.state.tasks[taskId]);
 
-        return <Column key = {column.id} column={column} tasks={tasks}/>;
-      })}
-      </DragDropContext>
+          return <Column key = {column.id} column={column} tasks={tasks}/>;
+        })}
+        </DragDropContext>
+      </div>
     );
   }  
 }
