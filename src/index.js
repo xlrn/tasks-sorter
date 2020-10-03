@@ -111,22 +111,23 @@ class App extends React.Component {
 
   }
 
-  handleChange(input) {
+  handleChange = (input) => {
     var newState = {
-      value: input,
+      value: input.target.value,
       ...this.state
     }
 
     this.setState(newState);
   } 
 
-  addTask(task) {
+// FIX THIS SHIT
+  addTask = (task) => {
     var newTaskId = Date.now();
     var newId = Date.now();
-    var newContent = task;
-    var column = this.state.columnns[0];
+    var newContent = task.target.value;
+    var column = this.state.columns[0];
     var taskIds = column.taskIds;
-
+    console.log(newContent);
 
     var newTask = {newTaskId: {id: newId, content: newContent}}
 
@@ -146,14 +147,14 @@ class App extends React.Component {
 
 
     this.setState(newState);
-
+    task.preventDefault();
   }
 
 
   render() {
     return (
       <div>
-        <AddBar onHandleSubmit={this.addTask} onHandleChange={this.handleChange}/>
+        <AddBar onSubmitForm={this.addTask} onHandleChange={this.handleChange}/>
         <DragDropContext onDragEnd={this.onDragEnd}>
           {this.state.columnOrder.map(columnId => {
           const column = this.state.columns[columnId];

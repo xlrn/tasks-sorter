@@ -20,23 +20,20 @@ export default class AddBar extends React.Component {
     }
 
     handleChange(event) {
-        this.props.onInputChange(event.target.value);
+        this.props.onHandleChange(event);
     }
 
     handleSubmit(event) {
-        this.props.onSubmitForm(event.target.value);
+        this.props.onSubmitForm(event);
         event.preventDefault();
     }
 
     render() {
         return (
             <Container>
-                <form>
-                    <label>
-                        New Task:
-                        <input type="text" value={this.props.value} /*onChange={this.handleChange}*/ />
-                    </label>
-                    <input type="submit" value="Add"/>
+                <form onSubmit={this.handleSubmit}>
+                    <input placeholder="Enter new task here" onChange={this.handleChange}/>
+                    <button type="submit">Add</button>
                 </form>
             </Container>
         )
