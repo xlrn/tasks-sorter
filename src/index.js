@@ -29,7 +29,7 @@ class App extends React.Component {
         'column-2' : {
             id: 'column-2',
             title: 'not do',
-            taskIds: [],
+            taskIds: ['task-3'],
         },
         'column-3' : {
             id: 'column-3',
@@ -114,7 +114,6 @@ class App extends React.Component {
   handleChange = (input) => {
     var newState = {
       value: input.target.value,
-      ...this.state
     }
 
     this.setState(newState);
@@ -122,27 +121,33 @@ class App extends React.Component {
 
 // FIX THIS SHIT
   addTask = (task) => {
-    var newTaskId = Date.now();
-    var newId = Date.now();
-    var newContent = task.target.value;
-    var column = this.state.columns[0];
-    var taskIds = column.taskIds;
+    var newTaskId = Date.now().toString();
+    const newId = Date.now().toString();
+    const newContent = this.state.value;
+    const column = this.state.columns["column-1"];
+    const taskIds = Array.from(column.taskIds);
     console.log(newContent);
 
-    var newTask = {newTaskId: {id: newId, content: newContent}}
+    var newTask = {id: newId, content: newContent}
 
     var newTaskIds = taskIds.push(newTaskId);
-
+    console.log(newTaskIds);
+    
     var newColumn = {...column,
-      taskIds: newTaskIds
+      taskIds: newTaskIds,
     }
 
+    console.log(newColumn.taskIds);
     var newState = {
       ...this.state,
-      tasks: {...this.state.tasks, newTask},
+      tasks: {
+        newTaskId : newTask,
+        ...this.state.tasks},
       columns: {...this.state.columns, newColumn},
       
     }
+    console.log(newState.tasks);
+    console.log(newState.columns["column-1"].taskIds);
 
 
 
