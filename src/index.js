@@ -121,33 +121,37 @@ class App extends React.Component {
 
 // FIX THIS SHIT
   addTask = (task) => {
-    var newTaskId = Date.now().toString();
     const newId = Date.now().toString();
     const newContent = this.state.value;
     const column = this.state.columns["column-1"];
-    const taskIds = Array.from(column.taskIds);
+    const newTaskIds = Array.from(column.taskIds);
     console.log(newContent);
 
     var newTask = {id: newId, content: newContent}
 
-    var newTaskIds = taskIds.push(newTaskId);
+    newTaskIds.push(newId);
     console.log(newTaskIds);
-    
+
     var newColumn = {...column,
       taskIds: newTaskIds,
     }
-
+    
+    console.log(newColumn);
     console.log(newColumn.taskIds);
+
     var newState = {
       ...this.state,
       tasks: {
-        newTaskId : newTask,
-        ...this.state.tasks},
-      columns: {...this.state.columns, newColumn},
+        ...this.state.tasks,
+        [newId] : newTask},
+      columns: {
+        ...this.state.columns, 
+        [newColumn.id] : newColumn,},
       
     }
     console.log(newState.tasks);
-    console.log(newState.columns["column-1"].taskIds);
+    console.log(newState.columns);
+    console.log(newState.columns[newColumn.id].taskIds);
 
 
 
