@@ -15,6 +15,17 @@ const Button = styled.button`
 `;
 
 export default class Task extends React.Component {
+    
+    constructor(props) {
+        super(props);
+
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(event) {
+        this.props.deleteTask(event);
+    }
+
     render() {
         return (
             <Draggable draggableId={this.props.task.id} index={this.props.index}>
@@ -26,7 +37,7 @@ export default class Task extends React.Component {
                         isDragging={snapshot.isDragging}
                     >
                         {this.props.task.content}
-                    <Button>Delete</Button>    
+                    <Button onClick={this.handleClick}>Delete</Button>    
                     </Container>
                     )}
             </Draggable>

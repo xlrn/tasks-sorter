@@ -159,6 +159,9 @@ class App extends React.Component {
     task.preventDefault();
   }
 
+  deleteTask(event) {
+    console.log(event);
+  }
 
   render() {
     return (
@@ -169,7 +172,7 @@ class App extends React.Component {
           const column = this.state.columns[columnId];
           const tasks = column.taskIds.map(taskId => this.state.tasks[taskId]);
 
-          return <Column key = {column.id} column={column} tasks={tasks}/>;
+          return <Column key = {column.id} column={column} tasks={tasks} deleteTask={this.deleteTask}/>;
         })}
         </DragDropContext>
       </div>

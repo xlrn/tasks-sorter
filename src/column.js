@@ -18,15 +18,26 @@ const TaskLisk = styled.div`
 `;
 
 export default class Column extends React.Component {
+    // constructor(props) {
+    //     super(props);
+    //     this.onHandleClick = this.onHandleClick.bind(this);
+    // }
+
+    // onHandleClick(event) {
+    //     this.props.deleteTask(event);
+    // }
+
     render() {
         return (
             <Container>
                 <Title>{this.props.column.title}</Title>
                 <Droppable droppableId={this.props.column.id}>
                     {(provided, snapshot)=> (
-                    <TaskLisk ref={provided.innerRef} {...provided.droppableProps} isDraggingOver={snapshot.isDraggingOver}>
-                        {this.props.tasks.map((task, index) => <Task key={task.id} task={task} index={index} />)}
-                        {provided.placeholder}
+                    <TaskLisk ref={provided.innerRef} {...provided.droppableProps} 
+                        isDraggingOver={snapshot.isDraggingOver}>
+                            {this.props.tasks.map((task, index) => 
+                                <Task key={task.id} task={task} index={index} deleteTask= {this.props.deleteTask}/>)}
+                            {provided.placeholder}
                     </TaskLisk>
                     )}
                 </Droppable>
