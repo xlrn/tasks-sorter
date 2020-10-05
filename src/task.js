@@ -23,7 +23,7 @@ export default class Task extends React.Component {
     }
 
     handleClick(event) {
-        this.props.deleteTask(event);
+        this.props.deleteTask(this);
     }
 
     render() {

@@ -159,8 +159,18 @@ class App extends React.Component {
     task.preventDefault();
   }
 
-  deleteTask(event) {
-    console.log(event);
+  deleteTask = (task, column) => {
+    console.log(task);
+    console.log(column);
+
+    const columnOG = column.props.column;
+    const taskIdsOG = Array.from(columnOG.taskIds);
+    console.log(taskIdsOG);
+    const removalIndex = taskIdsOG.findIndex((x) => x === task.props.task.id);
+    console.log(removalIndex);
+    taskIdsOG.splice(removalIndex, 1);
+    console.log(taskIdsOG);
+
   }
 
   render() {
