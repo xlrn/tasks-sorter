@@ -10,6 +10,10 @@ const Container = styled.div`
     background-color: ${props => (props.isDragging ? 'lightgrey' : 'white')};
 `;
 
+const Button = styled.button`
+    float: right;
+`;
+
 export default class Task extends React.Component {
     render() {
         return (
@@ -22,7 +26,7 @@ export default class Task extends React.Component {
                         isDragging={snapshot.isDragging}
                     >
                         {this.props.task.content}
-                        
+                    <Button>Delete</Button>    
                     </Container>
                     )}
             </Draggable>
