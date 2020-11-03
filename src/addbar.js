@@ -25,6 +25,7 @@ export default class AddBar extends React.Component {
 
     handleSubmit(event) {
         this.props.onSubmitForm(event);
+        event.target.reset();
         event.preventDefault();
     }
 
@@ -32,7 +33,7 @@ export default class AddBar extends React.Component {
         return (
             <Container>
                 <form onSubmit={this.handleSubmit}>
-                    <input placeholder="Enter new task here" onChange={this.handleChange}/>
+                    <input placeholder="Enter new task here" onChange={this.handleChange} />
                     <button type="submit">Add</button>
                 </form>
             </Container>

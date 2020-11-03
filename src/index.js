@@ -119,7 +119,7 @@ class App extends React.Component {
     this.setState(newState);
   } 
 
-// FIX THIS SHIT
+// FIX THIS SHIT -- I think it works now?
   addTask = (task) => {
     const newId = Date.now().toString();
     const newContent = this.state.value;
@@ -171,6 +171,30 @@ class App extends React.Component {
     taskIdsOG.splice(removalIndex, 1);
     console.log(taskIdsOG);
 
+    const newColumn = column.props.column;
+    newColumn.taskIds = taskIdsOG;
+
+    // delete task from tasks
+    const taskList = this.state.tasks;
+    console.log(taskList);
+    delete taskList[task.props.task.id];
+    const newTaskList = taskList;
+    console.log(newTaskList);
+
+    var newState = {
+      ...this.state,
+      tasks: 
+        newTaskList,
+      columns: {
+        ...this.state.columns, 
+        [newColumn.id] : newColumn,},
+      
+    }
+
+    console.log(newState.tasks);
+    console.log(newState.columns[newColumn.id].taskIds);
+
+    this.setState(newState);
   }
 
   render() {
