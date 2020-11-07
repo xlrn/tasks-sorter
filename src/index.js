@@ -6,7 +6,6 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import initialData from './initial-data';
 import Column from './column';
 import AddBar from './addbar';
-import { useStickyState } from './sticky';
 
 class App extends React.Component {
 
