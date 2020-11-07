@@ -6,45 +6,11 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import initialData from './initial-data';
 import Column from './column';
 import AddBar from './addbar';
+import { useStickyState } from './sticky';
 
 class App extends React.Component {
-  //state = initialData;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      iteration: 0,
-      value: {},
-      tasks: {        
-      'task-1': { id: 'task-1', content: 'do something' },
-      'task-2': { id: 'task-2', content: 'do nothing'},
-      'task-3': { id: 'task-3', content: 'just do it'},
-      },
-      columns: {
-        'column-1': {
-            id: 'column-1',
-            title: 'to do',
-            taskIds: ['task-1', 'task-2'],
-        },
-        'column-2' : {
-            id: 'column-2',
-            title: 'not do',
-            taskIds: ['task-3'],
-        },
-        'column-3' : {
-            id: 'column-3',
-            title: 'not important',
-            taskIds: [],
-        },
-        'column-4' : {
-            id: 'column-4',
-            title: 'important',
-            taskIds: [],
-        }
-    },
-    columnOrder: ['column-1', 'column-2', 'column-3', 'column-4'],
-    };
-  }
+  state = initialData; 
 
   onDragEnd = result => {
     const {destination, source, draggableId} = result;
@@ -108,6 +74,7 @@ class App extends React.Component {
     }
 
     this.setState(newState);
+
 
   }
 
@@ -196,6 +163,45 @@ class App extends React.Component {
 
     this.setState(newState);
   }
+
+  saveStateToLocalStorage() {
+    for (let key in this.state) {
+      localStorage.setItem(key, JSON.stringify(this.state[key]));
+    }
+  }
+
+  hydrateStateWithLocalStorage() {
+    for (let key in this.state) {
+      if (localStorage.hasOwnProperty(key)) {
+        let value = localStorage.getItem(key);
+
+        try {
+          value = JSON.parse(value);
+          this.setState({[key]: value});
+        } catch (e) {
+          this.setState({[key]: value});
+        }
+      }
+    }
+  }
+
+  componentDidMount() {
+    this.hydrateStateWithLocalStorage();
+
+    window.addEventListener(
+      "beforeunload",
+      this.saveStateToLocalStorage.bind(this)
+    );
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener(
+      "beforeunload",
+      this.saveStateToLocalStorage.bind(this)
+    );
+
+    this.saveStateToLocalStorage();
+}
 
   render() {
     return (
